@@ -114,25 +114,23 @@ def main():
         "酒類": Alcoholic_drink()
     }
 
-    while True:
-        with open(sys.argv[1], 'r') as f:
-            lines = f.readlines()
+    with open(sys.argv[1], 'r') as f:
+        lines = f.readlines()
 
-            # 將文件檔內容拆分
-            split_txt(lines)
+        # 將文件檔內容拆分
+        split_txt(lines)
 
-            # 處理節慶折價資訊
-            discount, discount_category = festival_discount(lines, discount_categories)
+        # 處理節慶折價資訊
+        discount, discount_category = festival_discount(lines, discount_categories)
 
-            # 加總商品價格
-            sum = sum_up_products(lines, discount, discount_category)
-            
-            # 處理折價券
-            # 日期格式 -> 長度 -> 有效期限內 -> 金額符合折價條件 -> 折價
-            sum = coupon_stage(lines, sum)
+        # 加總商品價格
+        sum = sum_up_products(lines, discount, discount_category)
+        
+        # 處理折價券
+        # 日期格式 -> 長度 -> 有效期限內 -> 金額符合折價條件 -> 折價
+        sum = coupon_stage(lines, sum)
 
-            print(sum)
-            break
+        print(sum)
 
 
 if __name__ == '__main__':
