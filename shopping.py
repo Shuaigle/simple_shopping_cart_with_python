@@ -77,14 +77,15 @@ def festival_discount(lines, discount_categories):
     '''
     isFestivalDate = lines[0][0]
     isToday = lines[-2][0]
+
     if (validate(isFestivalDate)) and (isFestivalDate == isToday):
         discount = lines[0][1]
         discount_category = discount_categories.get(lines[0][2])
     else:
-        discount = 1
-        discount_category = None
+        discount, discount_category = 1, None
     check_discount_value(discount)
     return discount, discount_category
+
 
 def sum_up_products(lines, discount, discount_category):
     '''
@@ -107,6 +108,7 @@ def sum_up_products(lines, discount, discount_category):
             check_product_price(price)
             res = round(Decimal(res) + Decimal(units) * Decimal(price), 2)
     return res
+
 
 def coupon_stage(lines, sum):
     '''
@@ -172,9 +174,7 @@ def main():
         sum = sum_up_products(lines, discount, discount_category)
         
         # 處理折價券
-        sum = coupon_stage(lines, sum)
-
-        print(sum)
+        print(coupon_stage(lines, sum))
 
 
 if __name__ == '__main__':
