@@ -5,39 +5,31 @@ from decimal import Decimal
 
 
 class Electronic_products:
-    '''
-    電子
-    '''
+    '''電子'''
     def __init__(self):
         self.products = ["顯示器", "ipad", "iphone", "螢幕", "筆記型電腦", "鍵盤"]
-        self.name = "電子"
+        self.name = self.__doc__
 
 
 class Food:
-    '''
-    食品
-    '''
+    '''食品'''
     def __init__(self):
         self.products = ["麵包", "蛋糕", "牛肉", "魚", "蔬菜"]
-        self.name = "食品"
+        self.name = self.__doc__
 
 
 class Groceries:
-    '''
-    日用品
-    '''
+    '''日用品'''
     def __init__(self):
         self.products = ["餐巾紙", "收納箱", "咖啡杯", "雨傘"]
-        self.name = "日用品"
+        self.name = self.__doc__
 
 
 class Alcoholic_drink:
-    '''
-    酒類
-    '''
+    '''酒類'''
     def __init__(self):
         self.products = ["啤酒", "白酒", "伏特加"]
-        self.name = "酒類"
+        self.name = self.__doc__
 
 
 def split_txt(lines):
