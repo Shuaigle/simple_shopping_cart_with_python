@@ -67,10 +67,10 @@ def festival_discount(lines, discount_categories):
 
     回傳折扣、折扣分類的物件
     '''
-    isFestivalDate = lines[0][0]
-    isToday = lines[-2][0]
+    is_festival_date = lines[0][0]
+    is_today = lines[-2][0]
 
-    if (validate(isFestivalDate)) and (isFestivalDate == isToday):
+    if (validate(is_festival_date)) and (is_festival_date == is_today):
         discount = lines[0][1]
         discount_category = discount_categories.get(lines[0][2])
     else:
@@ -111,12 +111,12 @@ def coupon_stage(lines, sum):
 
     回傳折價後金額
     '''
-    isInsideDiscountDate = lines[-1][0]
-    isToday = lines[-2][0]
+    is_inside_discount_date = lines[-1][0]
+    is_today = lines[-2][0]
 
-    if validate(isInsideDiscountDate) and \
+    if validate(is_inside_discount_date) and \
         len(lines[-1]) > 1 and \
-        datetime.datetime.strptime(isToday, '%Y.%m.%d') <=  datetime.datetime.strptime(isInsideDiscountDate, '%Y.%m.%d')and \
+        datetime.datetime.strptime(is_today, '%Y.%m.%d') <=  datetime.datetime.strptime(is_inside_discount_date, '%Y.%m.%d')and \
         Decimal(lines[-1][1]) <= sum: # 判斷折價券是否消費滿額，檢查日期是否符合
         discount = lines[-1][2]
         sum -= Decimal(discount) # 進行折價
