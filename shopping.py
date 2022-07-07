@@ -51,6 +51,7 @@ def split_txt(lines):
 def validate(date_text):
     '''
     檢查是否為時間格式
+    
     回傳boolean
     '''
     res = True
@@ -67,6 +68,8 @@ def festival_discount(lines, discount_categories):
     '''
     處理節慶折扣
     確認是否存在節慶日期、日期格式是否正確、日期是否與結帳日期相符
+
+    回傳折扣、折扣分類的物件
     '''
     if (validate(lines[0][0])) and (lines[0][0] == lines[-2][0]):
         discount = lines[0][1]
@@ -79,6 +82,8 @@ def festival_discount(lines, discount_categories):
 def sum_up_products(lines, discount, discount_category):
     '''
     依據折扣加總金額
+
+    回傳總金額
     '''
     res = 0
     for line in lines:
@@ -96,6 +101,8 @@ def coupon_stage(lines, sum):
     1. 確認折價券存在(日期格式、長度)
     2. 確認時限內使用
     3. 確認金額符合預期
+
+    回傳折價後金額
     '''
     if validate(lines[-1][0]) and \
         len(lines[-1]) > 1 and \
