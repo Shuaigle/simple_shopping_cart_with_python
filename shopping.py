@@ -93,6 +93,7 @@ def sum_up_products(lines, discount, discount_category):
         len(line) > 1:
             if discount_category is not None and line[1] in discount_category.products:
                 line[2] = Decimal(line[2]) * Decimal(discount)
+            check_units(line[0])
             res = round(Decimal(res) + Decimal(line[0]) * Decimal(line[2]), 2)
     return res
 
@@ -119,6 +120,13 @@ def check_discount_value(discount):
     if discount < 0 or discount > 1:
         raise ValueError('折扣須介於 0-1 之間')
 
+
+def check_units(units):
+    if not units.isdigit():
+        raise ValueError('數量需為正整數')
+    if int(units) == 0:
+        raise ValueError('數量不可為0')
+    
 
 def main():
     # 參數
