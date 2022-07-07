@@ -101,7 +101,7 @@ def coupon_stage(lines, sum):
         len(lines[-1]) > 1 and \
         datetime.datetime.strptime(lines[-2][0], '%Y.%m.%d') <=  datetime.datetime.strptime(lines[-1][0], '%Y.%m.%d')and \
         Decimal(lines[-1][1]) <= sum: # 判斷折價券是否消費滿額，檢查日期是否符合
-        sum = sum - Decimal(lines[-1][2]) # 進行折價
+        sum -= Decimal(lines[-1][2]) # 進行折價
     return sum
 
 def main():
@@ -127,7 +127,6 @@ def main():
         sum = sum_up_products(lines, discount, discount_category)
         
         # 處理折價券
-        # 日期格式 -> 長度 -> 有效期限內 -> 金額符合折價條件 -> 折價
         sum = coupon_stage(lines, sum)
 
         print(sum)
