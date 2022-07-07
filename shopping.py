@@ -51,7 +51,7 @@ def split_txt(lines):
 def validate(date_text):
     '''
     檢查是否為時間格式
-    
+
     回傳boolean
     '''
     res = True
@@ -77,6 +77,7 @@ def festival_discount(lines, discount_categories):
     else:
         discount = 1
         discount_category = None
+    check_discount_value(discount)
     return discount, discount_category
 
 def sum_up_products(lines, discount, discount_category):
@@ -110,6 +111,14 @@ def coupon_stage(lines, sum):
         Decimal(lines[-1][1]) <= sum: # 判斷折價券是否消費滿額，檢查日期是否符合
         sum -= Decimal(lines[-1][2]) # 進行折價
     return sum
+
+
+# 邊界條件
+def check_discount_value(discount):
+    discount = Decimal(discount)
+    if discount < 0 or discount > 1:
+        raise ValueError('折扣須介於 0-1 之間')
+
 
 def main():
     # 參數
