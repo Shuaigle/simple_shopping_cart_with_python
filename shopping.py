@@ -12,6 +12,7 @@ class Electronic_products:
         self.products = ["顯示器", "ipad", "iphone", "螢幕", "筆記型電腦", "鍵盤"]
         self.name = "電子"
 
+
 class Food:
     '''
     食品
@@ -19,6 +20,7 @@ class Food:
     def __init__(self):
         self.products = ["麵包", "蛋糕", "牛肉", "魚", "蔬菜"]
         self.name = "食品"
+
 
 class Groceries:
     '''
@@ -28,6 +30,7 @@ class Groceries:
         self.products = ["餐巾紙", "收納箱", "咖啡杯", "雨傘"]
         self.name = "日用品"
 
+
 class Alcoholic_drink:
     '''
     酒類
@@ -35,6 +38,7 @@ class Alcoholic_drink:
     def __init__(self):
         self.products = ["啤酒", "白酒", "伏特加"]
         self.name = "酒類"
+
 
 def split_txt(lines):
     '''
@@ -71,7 +75,9 @@ def festival_discount(lines, discount_categories):
 
     回傳折扣、折扣分類的物件
     '''
-    if (validate(lines[0][0])) and (lines[0][0] == lines[-2][0]):
+    isFestivalDate = lines[0][0]
+    isToday = lines[-2][0]
+    if (validate(isFestivalDate)) and (isFestivalDate == isToday):
         discount = lines[0][1]
         discount_category = discount_categories.get(lines[0][2])
     else:
@@ -91,10 +97,15 @@ def sum_up_products(lines, discount, discount_category):
         # 尋找非日期格式且長度大於1，即第1筆消費資訊
         if not validate(line[0]) and \
         len(line) > 1:
-            if discount_category is not None and line[1] in discount_category.products:
-                line[2] = Decimal(line[2]) * Decimal(discount)
-            check_units(line[0])
-            res = round(Decimal(res) + Decimal(line[0]) * Decimal(line[2]), 2)
+            units = line[0]
+            product = line[1]
+            price = line[2]
+
+            if discount_category is not None and product in discount_category.products:
+                price = Decimal(price) * Decimal(discount)
+            check_units(units)
+            check_product_price(price)
+            res = round(Decimal(res) + Decimal(units) * Decimal(price), 2)
     return res
 
 def coupon_stage(lines, sum):
@@ -106,11 +117,15 @@ def coupon_stage(lines, sum):
 
     回傳折價後金額
     '''
-    if validate(lines[-1][0]) and \
+    isInsideDiscountDate = lines[-1][0]
+    isToday = lines[-2][0]
+
+    if validate(isInsideDiscountDate) and \
         len(lines[-1]) > 1 and \
-        datetime.datetime.strptime(lines[-2][0], '%Y.%m.%d') <=  datetime.datetime.strptime(lines[-1][0], '%Y.%m.%d')and \
+        datetime.datetime.strptime(isToday, '%Y.%m.%d') <=  datetime.datetime.strptime(isInsideDiscountDate, '%Y.%m.%d')and \
         Decimal(lines[-1][1]) <= sum: # 判斷折價券是否消費滿額，檢查日期是否符合
-        sum -= Decimal(lines[-1][2]) # 進行折價
+        discount = lines[-1][2]
+        sum -= Decimal(discount) # 進行折價
     return sum
 
 
@@ -126,6 +141,12 @@ def check_units(units):
         raise ValueError('數量需為正整數')
     if int(units) == 0:
         raise ValueError('數量不可為0')
+    return True
+
+
+def check_product_price(price):
+    if Decimal(price) < 0:
+        raise ValueError('價格不可為負')
     
 
 def main():
